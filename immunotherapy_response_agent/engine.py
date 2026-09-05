@@ -3,8 +3,7 @@ Clinical Algorithmic Engine & Guideline Rules for ImmunoMind: Tumor Mutation Bur
 Domain: Precision Oncology
 Standard: AMP / ASCO / CAP Somatic Variant Tiers
 """
-import math
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel, ClinicalIntegrityStatus
 
 

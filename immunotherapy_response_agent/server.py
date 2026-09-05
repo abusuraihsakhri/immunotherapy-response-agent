@@ -1,7 +1,7 @@
 """
 FastAPI REST Application & Webhooks for ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent.
 """
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from .models import ClinicalCasePayload
 from .agents import IOOrchestrator
 

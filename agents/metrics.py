@@ -2,7 +2,6 @@
 Prometheus Operational Metrics Exporter for immunotherapy-response-agent.
 """
 import time
-from typing import Dict, Any
 
 class SystemMetricsCollector:
     def __init__(self):
