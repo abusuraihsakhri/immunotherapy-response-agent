@@ -106,3 +106,11 @@ def test_clinical_prototype_api_rejects_nonfinite_values():
     with TestClient(app) as client:
         response = client.post("/api/audit", json={"primary_metric": "inf"})
     assert response.status_code == 422
+
+
+def test_clinical_prototype_direct_payload_rejects_nan():
+    with pytest.raises(ValueError):
+        ClinicalCasePayload(
+            case_id="TEST", patient_synthetic_id="SYNTH",
+            primary_metric=float("nan"), secondary_metric=1.0, status_flag="NOMINAL"
+        )

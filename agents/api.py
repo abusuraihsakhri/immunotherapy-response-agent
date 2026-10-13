@@ -12,7 +12,7 @@ supervisor = SystemSupervisor(model_provider="mock")
 app = FastAPI(
     title="Immunotherapy Response Agent API",
     description="Synthetic demonstration rules and programmatic audit APIs; not clinical decision support",
-    version="3.0.0-ENTERPRISE",
+    version="2.0.1",
 )
 
 
@@ -22,7 +22,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "HEALTHY", "service": "immunotherapy-response-agent", "domain": "Synthetic rule demonstration", "standard": "Not clinically validated", "version": "3.0.0-ENTERPRISE"}
+    return {"status": "HEALTHY", "service": "immunotherapy-response-agent", "domain": "Synthetic rule demonstration", "standard": "Not clinically validated", "version": "2.0.1"}
 
 
 @app.get("/metrics")

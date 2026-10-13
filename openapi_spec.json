@@ -3,7 +3,7 @@
   "info": {
     "title": "Immunotherapy Response Engine API",
     "description": "Synthetic demonstration API for deterministic threshold rules; not clinically validated and not suitable for patient care.",
-    "version": "3.0.0-ENTERPRISE",
+    "version": "2.0.1",
     "contact": {
       "name": "Dr. Abu Suraih Sakhri",
       "url": "https://github.com/abusuraihsakhri"
