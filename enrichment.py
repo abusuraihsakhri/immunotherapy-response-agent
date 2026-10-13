@@ -1,6 +1,6 @@
 """
 Enrichment Feature Implementation for immunotherapy-response-agent.
-Generated based on domain-specific requirements in specifications.
+Contains illustrative scalar-threshold placeholder modules, not implemented biomarker correlation or clinical inference.
 """
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Tuple
@@ -39,13 +39,13 @@ class OverviewEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Overview: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Overview: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = OverviewEngineResult(
             feature_name="Overview",
@@ -89,13 +89,13 @@ class ImmunotherapyBiomarkerCorrelationTmbPdl1MsiInOneUnifiedViewEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Immunotherapy Biomarker Correlation (TMB, PD-L1, MSI in One Unified View): Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Immunotherapy Biomarker Correlation (TMB, PD-L1, MSI in One Unified View): Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = ImmunotherapyBiomarkerCorrelationTmbPdl1MsiInOneUnifiedViewEngineResult(
             feature_name="Immunotherapy Biomarker Correlation (TMB, PD-L1, MSI in One Unified View)",
@@ -139,13 +139,13 @@ class GoalEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Goal: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Goal: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = GoalEngineResult(
             feature_name="Goal",
@@ -189,13 +189,13 @@ class DataModelChangesEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Data Model Changes: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Data Model Changes: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = DataModelChangesEngineResult(
             feature_name="Data Model Changes",
@@ -239,13 +239,13 @@ class AgentChangesEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Agent Changes: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Agent Changes: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = AgentChangesEngineResult(
             feature_name="Agent Changes",
@@ -289,13 +289,13 @@ class ApiChangesEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"API Changes: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"API Changes: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = ApiChangesEngineResult(
             feature_name="API Changes",
@@ -339,13 +339,13 @@ class TestingEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Testing: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Testing: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = TestingEngineResult(
             feature_name="Testing",
@@ -389,13 +389,13 @@ class PseudoprogressionVsTrueProgressionDifferentiatorEngine:
         if primary_value > self.threshold * 2:
             status = "CRITICAL_ALERT"
             alerts.append(f"Pseudoprogression vs. True Progression Differentiator: Primary value {primary_value:.2f} breached critical threshold ({self.threshold * 2:.2f})")
-            recs.append("Initiate immediate protocol review and escalate to attending lead.")
+            recs.append("Review the synthetic threshold; no clinical escalation or treatment action is implied.")
         elif primary_value > self.threshold:
             status = "WARNING"
             alerts.append(f"Pseudoprogression vs. True Progression Differentiator: Value {primary_value:.2f} exceeds baseline threshold ({self.threshold:.2f})")
-            recs.append("Increase monitoring frequency and perform secondary verification.")
+            recs.append("Review the demonstration input and threshold setting; no clinical monitoring advice is implied.")
         else:
-            recs.append("Parameters nominal under standard operating bounds.")
+            recs.append("Within the configured demonstration threshold; not a statement of clinical normality.")
 
         res = PseudoprogressionVsTrueProgressionDifferentiatorEngineResult(
             feature_name="Pseudoprogression vs. True Progression Differentiator",
