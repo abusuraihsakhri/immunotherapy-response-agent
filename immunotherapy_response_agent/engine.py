@@ -1,14 +1,14 @@
 """
 Clinical Algorithmic Engine & Guideline Rules for ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent.
 Domain: Precision Oncology
-Standard: AMP / ASCO / CAP Somatic Variant Tiers
+The numeric thresholds below are illustrative and are NOT validated clinical criteria.
 """
 from typing import Dict, Any, Optional
 from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel, ClinicalIntegrityStatus
 
 
 class ClinicalDomainEngine:
-    GUIDELINE = "AMP / ASCO / CAP Somatic Variant Tiers"
+    GUIDELINE = "Demonstration thresholds only; no guideline endorsement"
     PRIMARY_BASELINE_LIMIT = 20.0
     SECONDARY_ALERT_LIMIT = 10.0
 
@@ -17,8 +17,8 @@ class ClinicalDomainEngine:
         if value > cls.PRIMARY_BASELINE_LIMIT:
             return {
                 "title": "Primary Metric Threshold Exceeded",
-                "finding": f"Observed value ({value:.2f}) exceeds AMP / ASCO / CAP Somatic Variant Tiers clinical baseline limit ({cls.PRIMARY_BASELINE_LIMIT:.1f}).",
-                "recommendation": "Perform immediate secondary verification and calibration review.",
+                "finding": f"Observed value ({value:.2f}) exceeds demonstration primary threshold ({cls.PRIMARY_BASELINE_LIMIT:.1f}).",
+                "recommendation": "Review the synthetic primary metric; no treatment recommendation is implied.",
             }
         return None
 
@@ -28,7 +28,7 @@ class ClinicalDomainEngine:
             return {
                 "title": "STAT Kinetic Escalation Triggered",
                 "finding": f"Kinetic parameter ({value:.2f}) with STAT={is_stat} requires prioritized supervision.",
-                "recommendation": "Activate closed-loop verbal clinician notification protocol per Joint Commission standards.",
+                "recommendation": "Review the synthetic critical flag; it is not an emergency notification.",
             }
         return None
 
@@ -39,6 +39,6 @@ class ClinicalDomainEngine:
             return {
                 "title": "Phenotypic / Biomarker Discordance Identified",
                 "finding": f"Status flag '{status_flag}' indicates divergence from standard diagnostic concordance.",
-                "recommendation": f"Order reflex confirmatory testing per AMP / ASCO / CAP Somatic Variant Tiers clinical recommendations.",
+                "recommendation": f"Review the synthetic status flag; no diagnostic testing recommendation is implied.",
             }
         return None

@@ -33,3 +33,11 @@ def test_enrichment_threshold_escalation():
     for k, v in res.items():
         assert v.status in ["WARNING", "CRITICAL_ALERT"]
         assert len(v.alerts) > 0
+
+
+def test_enrichment_does_not_issue_unvalidated_clinical_orders():
+    suite = ImmunotherapyresponseagentEnrichmentSuite()
+    outcomes = suite.execute_all(primary_val=10.0, secondary_val=5.0)
+    instructions = " ".join(r for result in outcomes.values() for r in result.recommendations).lower()
+    assert "attending lead" not in instructions
+    assert "increase monitoring frequency" not in instructions

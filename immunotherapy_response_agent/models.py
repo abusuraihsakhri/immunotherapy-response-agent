@@ -1,9 +1,10 @@
 """
 Clinical Data Models & Enums for ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent.
 Domain: Precision Oncology
-Standard: AMP / ASCO / CAP Somatic Variant Tiers
+Demonstration thresholds only; no clinical validation
 """
 import datetime
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Any
@@ -34,6 +35,12 @@ class ClinicalCasePayload:
     biomarkers: Dict[str, Any] = field(default_factory=dict)
     timestamp: str = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
 
+    def __post_init__(self):
+        for field_name in ("primary_metric", "secondary_metric"):
+            value = getattr(self, field_name)
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+                raise ValueError(f"{field_name} must be a finite number")
+
 
 @dataclass
 class AgentAlert:
@@ -43,7 +50,7 @@ class AgentAlert:
     title: str
     clinical_finding: str
     actionable_recommendation: str
-    guideline_citation: str = "AMP / ASCO / CAP Somatic Variant Tiers"
+    guideline_citation: str = "Illustrative rules; no guideline endorsement"
     timestamp: str = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
 
     def to_dict(self) -> Dict[str, Any]:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent
-Synthesizes TMB (mut/Mb), MSI-H/dMMR status, PD-L1 TPS/CPS, and HLA-I loss of heterozygosity to predict anti-PD-1/PD-L1 clinical response.
+Implements illustrative numerical/status rules. It does not interpret immunotherapy biomarkers or predict clinical response.
 
 Domain: Precision Oncology
 Author: Dr. Abu Suraih Sakhri
@@ -14,6 +14,7 @@ import datetime
 import sys
 import uuid
 from typing import Dict, Any, List, Optional
+from csv_utils import parse_bool
 
 
 class Severity(str):
@@ -31,8 +32,8 @@ class Severity(str):
 class DomainKnowledgeRegistry:
     """Enterprise domain rules, guideline matrices, and evidence benchmarks."""
     SYSTEM_VERSION = "2.0.0-PRO-CLINICAL"
-    ZERO_PHI_COMPLIANCE = True
-    HIPAA_SAFE_HARBOR = "ACTIVE_ON_PREMISES"
+    ZERO_PHI_COMPLIANCE = False
+    HIPAA_SAFE_HARBOR = "NOT_ASSESSED"
 
     @staticmethod
     def audit_security_and_integrity(payload: Dict[str, Any]) -> List[str]:
@@ -87,7 +88,7 @@ class MSIStatusValidatorAgent:
     """Specialized Sub-Agent 2 for immunotherapy-response-agent"""
     def evaluate(self, payload: Dict[str, Any]) -> List[AgentAlert]:
         alerts = []
-        is_critical = bool(payload.get("critical_flag", False))
+        is_critical = parse_bool(payload.get("critical_flag", False))
         val2 = float(payload.get("metric_secondary", 5.0))
         if is_critical or val2 > 12.0:
             alerts.append(
@@ -162,11 +163,11 @@ class IOOrchestrator:
     def query_assistant(self, user_query: str) -> str:
         q = user_query.strip().lower()
         if "summary" in q or "status" in q:
-            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent currently tracking {len(self.case_registry)} cases in local air-gapped memory."
+            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent currently tracking {len(self.case_registry)} cases in process memory."
         elif "guidelines" in q or "protocol" in q:
-            return "All sub-agents operate under validated consensus clinical algorithms and CAP/CLSI/NCCN/WHO standards."
+            return "The numeric thresholds are illustrative; this tool does not implement clinically validated guidelines or response prediction."
         else:
-            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent executive agent online. Continuous supervisory monitoring active across all domain parameters."
+            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent deterministic rule demonstrator is available; no automated clinical supervision is provided."
 
 
 coordinator = IOOrchestrator()
@@ -179,7 +180,7 @@ def create_app():
 
         app = FastAPI(
             title="ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent",
-            description="Synthesizes TMB (mut/Mb), MSI-H/dMMR status, PD-L1 TPS/CPS, and HLA-I loss of heterozygosity to predict anti-PD-1/PD-L1 clinical response.",
+            description="Synthetic numerical/status rules only; no validated clinical response prediction.",
             version="1.0.0",
         )
 

@@ -6,6 +6,7 @@ import csv
 import sys
 from .models import ClinicalCasePayload
 from .agents import IOOrchestrator
+from csv_utils import parse_bool
 
 coordinator = IOOrchestrator()
 
@@ -79,7 +80,7 @@ def main(argv=None):
             print(f"Error: Permission denied reading '{args.input}'.", file=sys.stderr)
             return 1
 
-        out_fields = fieldnames + ["overall_status", "total_alerts", "stat_critical_alerts", "consensus_summary"]
+        out_fields = list(dict.fromkeys(fieldnames + ["overall_status", "total_alerts", "stat_critical_alerts", "consensus_summary"]))
         out_rows = []
         for r in rows:
             try:
@@ -89,7 +90,7 @@ def main(argv=None):
                     primary_metric=float(r.get("metric_primary", r.get("primary_metric", 15.0))),
                     secondary_metric=float(r.get("metric_secondary", r.get("secondary_metric", 5.0))),
                     status_flag=r.get("status_flag", r.get("status_text", "NORMAL")),
-                    is_stat=bool(r.get("is_stat", r.get("critical_flag", False))),
+                    is_stat=parse_bool(r.get("is_stat", r.get("critical_flag", False))),
                 )
                 dossier = coordinator.process_case(case)
                 row_dict = dict(r)

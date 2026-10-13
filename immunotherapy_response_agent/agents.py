@@ -3,8 +3,8 @@ Distributed Component Hierarchy & Executive Coordinator for ImmunoMind: Tumor Mu
 Domain: Precision Oncology
 """
 import uuid
-from typing import List
-from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel
+from typing import List, Dict, Any
+from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel, ClinicalIntegrityStatus
 from .engine import ClinicalDomainEngine
 
 
@@ -60,7 +60,7 @@ class PDL1ExpressionHarmonizerAgent:
 
 
 class IOOrchestrator:
-    """Executive Coordinator & Air-Gapped Supervisory Interface."""
+    """Executive coordinator for deterministic demonstration rules."""
     def __init__(self):
         self.agent_1 = TMBScoreEvaluatorAgent()
         self.agent_2 = MSIStatusValidatorAgent()
@@ -93,7 +93,7 @@ class IOOrchestrator:
             "stat_critical_alerts": stat_count,
             "warning_alerts": warn_count,
             "alerts": [a.to_dict() for a in all_alerts],
-            "guideline_standard": "AMP / ASCO / CAP Somatic Variant Tiers",
+            "guideline_standard": "Demonstration thresholds (not clinically validated)",
             "consensus_summary": f"Multi-agent supervision completed across 3 sub-agents with status [{status.value}].",
         }
 
@@ -105,6 +105,6 @@ class IOOrchestrator:
         if "status" in q or "summary" in q:
             return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent currently tracking {len(self.case_registry)} cases in on-premises memory."
         elif "guideline" in q or "standard" in q:
-            return "Active clinical surveillance operates under AMP / ASCO / CAP Somatic Variant Tiers validated protocols."
+            return "This utility uses illustrative thresholds; it does not implement or validate clinical guidelines."
         else:
-            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent executive agent online. Zero-PHI air-gapped monitoring active."
+            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent executive agent online. No clinical validation or de-identification guarantee."
