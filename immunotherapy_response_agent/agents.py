@@ -3,8 +3,8 @@ Distributed Component Hierarchy & Executive Coordinator for ImmunoMind: Tumor Mu
 Domain: Precision Oncology
 """
 import uuid
-from typing import List
-from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel
+from typing import List, Dict, Any
+from .models import ClinicalCasePayload, AgentAlert, UrgencyLevel, ClinicalIntegrityStatus
 from .engine import ClinicalDomainEngine
 
 

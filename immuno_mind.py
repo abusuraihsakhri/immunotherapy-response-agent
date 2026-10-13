@@ -14,6 +14,7 @@ import datetime
 import sys
 import uuid
 from typing import Dict, Any, List, Optional
+from csv_utils import parse_bool
 
 
 class Severity(str):
@@ -87,7 +88,7 @@ class MSIStatusValidatorAgent:
     """Specialized Sub-Agent 2 for immunotherapy-response-agent"""
     def evaluate(self, payload: Dict[str, Any]) -> List[AgentAlert]:
         alerts = []
-        is_critical = bool(payload.get("critical_flag", False))
+        is_critical = parse_bool(payload.get("critical_flag", False))
         val2 = float(payload.get("metric_secondary", 5.0))
         if is_critical or val2 > 12.0:
             alerts.append(
