@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent
-Synthesizes TMB (mut/Mb), MSI-H/dMMR status, PD-L1 TPS/CPS, and HLA-I loss of heterozygosity to predict anti-PD-1/PD-L1 clinical response.
+Implements illustrative numerical/status rules. It does not interpret immunotherapy biomarkers or predict clinical response.
 
 Domain: Precision Oncology
 Author: Dr. Abu Suraih Sakhri
@@ -180,7 +180,7 @@ def create_app():
 
         app = FastAPI(
             title="ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent",
-            description="Synthesizes TMB (mut/Mb), MSI-H/dMMR status, PD-L1 TPS/CPS, and HLA-I loss of heterozygosity to predict anti-PD-1/PD-L1 clinical response.",
+            description="Synthetic numerical/status rules only; no validated clinical response prediction.",
             version="1.0.0",
         )
 

@@ -78,3 +78,31 @@ def test_api_rejects_identifier_with_client_error():
         })
     assert result.status_code == 422
     assert "john.doe@hospital.org" not in result.text
+
+
+def test_batch_csv_false_and_true_are_distinct(tmp_path):
+    import csv
+    from cli import main
+    source = tmp_path / "cases.csv"
+    destination = tmp_path / "results.csv"
+    source.write_text(
+        "case_id,patient_synthetic_id,metric_primary,metric_secondary,is_stat,status_flag\\n"
+        "C1,SYNTH-01,10,3,False,NOMINAL\\n"
+        "C2,SYNTH-02,10,3,True,NOMINAL\\n",
+        encoding="utf-8"
+    )
+    assert main(["batch", "--input", str(source), "--output", str(destination)]) == 0
+    with destination.open(encoding="utf-8", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    assert len(rows) == 2
+    assert rows[0]["overall_urgency"] == "ROUTINE"
+    assert rows[1]["overall_urgency"] == "CRITICAL_STAT_PANIC"
+
+
+def test_clinical_prototype_api_rejects_nonfinite_values():
+    from fastapi.testclient import TestClient
+    from immunotherapy_response_agent.server import create_app
+    app = create_app()
+    with TestClient(app) as client:
+        response = client.post("/api/audit", json={"primary_metric": "inf"})
+    assert response.status_code == 422

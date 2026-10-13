@@ -1,7 +1,7 @@
 """
 Specialized Domain Worker Agents for Immunotherapy Response Agent.
-Domain: Clinical & Biomedical AI
-Standard: CAP / CLSI / ISO Standards
+Domain: Synthetic rule demonstration
+The fixed numeric thresholds are not clinical reference intervals
 """
 import uuid
 from typing import List
@@ -20,7 +20,7 @@ class InvariantQCWorker:
                 origin_worker="InvariantQCWorker",
                 urgency=UrgencyLevel.ELEVATED,
                 summary="Primary Metric Threshold Exceeded",
-                technical_details=f"Primary measurement ({payload.primary_metric:.2f}) exceeds upper reference limit (25.00) in this demonstration (not a clinical reference interval).",
+                technical_details=f"Primary measurement ({payload.primary_metric:.2f}) exceeds configured demonstration threshold (25.00; not a clinical reference interval).",
                 actionable_remediation="Review the synthetic threshold condition; no clinical action is implied.",
             ))
         return alerts
