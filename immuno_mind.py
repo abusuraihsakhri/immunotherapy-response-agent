@@ -32,8 +32,8 @@ class Severity(str):
 class DomainKnowledgeRegistry:
     """Enterprise domain rules, guideline matrices, and evidence benchmarks."""
     SYSTEM_VERSION = "2.0.0-PRO-CLINICAL"
-    ZERO_PHI_COMPLIANCE = True
-    HIPAA_SAFE_HARBOR = "ACTIVE_ON_PREMISES"
+    ZERO_PHI_COMPLIANCE = False
+    HIPAA_SAFE_HARBOR = "NOT_ASSESSED"
 
     @staticmethod
     def audit_security_and_integrity(payload: Dict[str, Any]) -> List[str]:
@@ -163,11 +163,11 @@ class IOOrchestrator:
     def query_assistant(self, user_query: str) -> str:
         q = user_query.strip().lower()
         if "summary" in q or "status" in q:
-            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent currently tracking {len(self.case_registry)} cases in local air-gapped memory."
+            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent currently tracking {len(self.case_registry)} cases in process memory."
         elif "guidelines" in q or "protocol" in q:
-            return "All sub-agents operate under validated consensus clinical algorithms and CAP/CLSI/NCCN/WHO standards."
+            return "The numeric thresholds are illustrative; this tool does not implement clinically validated guidelines or response prediction."
         else:
-            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent executive agent online. Continuous supervisory monitoring active across all domain parameters."
+            return f"ImmunoMind: Tumor Mutation Burden, MSI-H & Immune Checkpoint Predictor Agent deterministic rule demonstrator is available; no automated clinical supervision is provided."
 
 
 coordinator = IOOrchestrator()

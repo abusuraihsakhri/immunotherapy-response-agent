@@ -1,193 +1,75 @@
 # Immunotherapy Response Agent
 
-> **Domain:** Clinical Decision Support & Biomedical Computing
-> **Reference Guidelines & Standards:** `Standard Clinical Formulations & ISO/IEC Quality Frameworks`
+Deterministic Python audit utilities and a standalone browser demonstration for synthetic oncology-oriented inputs. The current algorithms are **not clinically validated** as TMB/MSI/PD-L1 interpretations or predictors of anti-PD-1/PD-L1 response.
 
-<div align="center">
+## What works
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB.svg?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688.svg?logo=fastapi&logoColor=white)
-![Audit Trail](https://img.shields.io/badge/Audit-HMAC--SHA256_Tamper--Evident-brightgreen.svg)
-![Zero-PHI Guard](https://img.shields.io/badge/Guard-Zero--PHI_Outbound-blue.svg)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)
+- **Browser demonstration:** three local JavaScript worker rules, input validation, human-readable JSON output and JSON export, without sending entries to a server.
+- **Operations CLI/API:** Pydantic payload validation, three configurable fixed worker checks, CSV batch processing, mock chat, and in-memory HMAC-SHA256 audit entries.
+- **Legacy prototypes:** `immuno_mind.py` and `immunotherapy_response_agent/` expose separate rule sets and CLI/API interfaces. They are not interoperable models and are not validated treatment recommendation engines.
 
-</div>
+### Demonstration rules
 
----
+| Worker | Trigger | Output |
+| --- | --- | --- |
+| InvariantQCWorker | Primary metric > 25 | Elevated |
+| SafetyEscalationWorker | Secondary metric > 12 or explicit critical flag | Elevated, or critical when flagged |
+| ProtocolConformanceWorker | Status contains DISCORDANT, ANOMALY, MUTANT, VIOLATION, FAIL or REJECT | Elevated |
 
-## 📖 What It Does
+Thresholds are illustrative software behavior only; they are **not clinical reference ranges, guideline cutoffs, or biomarker response estimates**. Results must not be used for diagnosis, triage, or treatment decisions.
 
-**Immunotherapy Response Agent** is an advanced analytical and computational platform implementing TMB, MSI-H, PD-L1 & HLA-I Loss of Heterozygosity Predictor. It synthesizes TMB (mut/Mb), MSI-H/dMMR status, PD-L1 TPS/CPS, and HLA-I loss of heterozygosity to predict anti-PD-1/PD-L1 clinical response.
+## Browser demonstration
 
----
-
-## ⚙️ Key Capabilities & Algorithmic Modules
-
-### 🔬 Core Algorithmic & Evaluation Engines
-
-- **`Severity`** — dedicated module for severity evaluation and state verification.
-- **`DomainKnowledgeRegistry`**: Enterprise domain rules, guideline matrices, and evidence benchmarks.
-- **`AgentAlert`** — dedicated module for agent alert evaluation and state verification.
-- **`TMBScoreEvaluatorAgent`**: Specialized Sub-Agent 1 for immunotherapy-response-agent
-- **`MSIStatusValidatorAgent`**: Specialized Sub-Agent 2 for immunotherapy-response-agent
-- **`PDL1ExpressionHarmonizerAgent`**: Specialized Sub-Agent 3 for immunotherapy-response-agent
-
-### 🏗️ Architecture
-
-The project contains two parallel implementations:
-
-- **`agents/`** — Enterprise package with Pydantic models, FastAPI REST API, HMAC-SHA256 audit trail, and Zero-PHI outbound guard
-- **`immunotherapy_response_agent/`** — Clinical package with dataclass models and AMP/ASCO/CAP Somatic Variant Tiers standards
-- **`immuno_mind.py`** — Standalone script for direct evaluation
-
----
-
-## 💻 Installation
+Open `web/index.html` from a static HTTP server:
 
 ```bash
-# Clone the repository
-git clone https://github.com/abusuraihsakhri/immunotherapy-response-agent.git
-cd immunotherapy-response-agent
-
-# Install dependencies
-pip install fastapi uvicorn pydantic pytest
+python -m http.server 8080 --directory web
 ```
 
----
+Visit `http://localhost:8080/`. The browser runs a local JavaScript port of the three operations worker rules. Python is **not** executed in the browser; a backend and Pyodide are unnecessary for this demonstration. GitHub Pages deployment is provided through `.github/workflows/pages.yml`, subject to repository Pages being enabled and configured for GitHub Actions.
 
-## 💻 CLI Quickstart & Usage
+## Python setup
 
-### 1. Single Case Audit
+Requires Python 3.10 or newer.
+
 ```bash
-python cli.py audit --task-id TASK-01 --primary 28.5 --secondary 14.2 --critical --status DISCORDANT
+python -m pip install -e ".[api,test]"
+python -m pytest -q
+node --test web/app.test.cjs  # Node.js 22 recommended for the browser checks
 ```
 
-### 2. Air-Gapped Chat
-```bash
-python cli.py chat "What are the guidelines?"
-```
+Operations CLI:
 
-### 3. Batch CSV Processing
 ```bash
-python cli.py batch -i sample.csv -o results.csv
-```
-
-### 4. Verify Audit Trail Integrity
-```bash
+python cli.py audit --task-id DEMO-01 --target SPECIMEN-01 --primary 28 --secondary 13
+python cli.py batch --input sample.csv --output results.csv
 python cli.py verify-audit
-```
-
-### 5. Launch REST API Server
-```bash
 python cli.py serve --host 127.0.0.1 --port 8000
 ```
 
-### Parameter Reference
-- `--task-id`: Unique task / case identifier
-- `--target`: Entity, patient key, or genomic target
-- `--primary`: Primary domain measurement or score (float)
-- `--secondary`: Secondary kinetic or confidence score (float)
-- `--status`: Status code or phenotype descriptor
-- `--critical`: Emergency escalation flag
+Use `python -m immunotherapy_response_agent.cli audit` for the separate clinical-prototype rule set, or `python immuno_mind.py audit` for the standalone legacy version. Sample CSV fields `case_id`, `patient_synthetic_id`, `metric_primary`, `metric_secondary`, `is_stat`, and `status_flag` are accepted by the operations batch CLI as aliases. Invalid boolean tokens are skipped with a warning.
 
-### Input Data Schema
+The operations API includes `GET /health`, `POST /api/audit`, `POST /api/chat`, `GET /api/audit/logs`, `GET /metrics` (JSON counters), and generated OpenAPI docs at `/docs`. The mock chat adapter does not call any language model. The development server also serves the static demonstration at `/` when the `web/` directory is present.
 
-| Field | Description | Requirement |
-|:------|:------------|:------------|
-| `case_id` | Parameter / observation metric | Required |
-| `patient_synthetic_id` | Parameter / observation metric | Required |
-| `metric_primary` | Parameter / observation metric | Required |
-| `metric_secondary` | Parameter / observation metric | Required |
-| `is_stat` | Parameter / observation metric | Required |
-| `status_flag` | Parameter / observation metric | Required |
-
----
-
-## 🛡️ Security & Enterprise Architecture
-
-* **Zero-PHI Outbound Interceptor:** Active regex inspection blocking SSNs, MRNs, phone numbers, emails, and patient identifiers.
-* **Tamper-Evident HMAC-SHA256 Audit Trail:** Chained, cryptographically signed logs for every evaluation and state transition.
-* **Air-Gapped LLM Reasoning Adapter:** Agnostic integration for local Ollama instances (`llama3`, `mistral`), Claude 3.5 Sonnet, GPT-4o, and deterministic test mocks.
-* **Active Learning Bayesian Calibration:** Dynamic tracker updating worker reliability weights and monitoring Brier calibration drift.
-* **FastAPI & Prometheus Telemetry:** Exposes OpenAPI 3.1 REST endpoints and operational Prometheus metrics (`/metrics`).
-
-### Security Configuration
-
-Set the `AUDIT_SECRET_KEY` environment variable to a secure random value for production deployments:
+## Docker
 
 ```bash
-export AUDIT_SECRET_KEY="your-secure-random-key-here"
+export AUDIT_SECRET_KEY="$(openssl rand -hex 32)"
+docker compose up --build
 ```
 
-If not set, a random key is generated at runtime (suitable for development/testing).
+Do not commit the secret or use an identical key across deployments. Without an explicit key, the CLI generates an ephemeral random key on process startup; the Compose configuration requires a key.
 
----
+## Privacy, limitations, and security
 
-## 🧪 Testing & Verification
+**Only synthetic, non-identifying inputs are appropriate.** The Python identifier guard checks selected patterns such as MRNs, emails, phone numbers and SSNs. It is **not a comprehensive PHI detector, HIPAA Safe Harbor de-identification mechanism, or proof of regulatory compliance**. Input files and API calls must be managed by the operator. The API has no authentication: bind it to localhost or protect it behind a trusted authenticated gateway, not the public internet.
 
-Run the automated test suite:
+Browser demonstration inputs stay in the current tab (unless the user explicitly exports JSON); no server calls, analytics, or browser storage are used. The Python services keep case and audit information in **process memory only**. Audit-chain integrity is verified with HMAC-SHA256 over each entry, but persistence, rotation, identity management and full regulatory audit controls are not implemented. The repository includes no external clinical model integration or prospective clinical validation.
 
-```bash
-pytest -v
-```
+## Development and testing
 
-Execute high-throughput batch simulation benchmarks:
+Python CI runs on 3.10, 3.11 and 3.12. Browser rules have Node.js regression tests. `web/` uses standards-based HTML, CSS and JavaScript without dependencies. The API uses FastAPI/Pydantic v2; the core utilities use Python.
 
-```bash
-python simulator.py 1000
-```
+## License
 
----
-
-## 🐳 Container Deployment
-
-```bash
-docker build -t immunotherapy-response-agent .
-docker run -p 8000:8000 immunotherapy-response-agent
-```
-
----
-
-## 📁 Project Structure
-
-```
-immunotherapy-response-agent/
-├── agents/                          # Enterprise package
-│   ├── api.py                       # FastAPI REST endpoints
-│   ├── base.py                      # Security, PHI guard, HMAC audit
-│   ├── learning.py                  # Bayesian calibration engine
-│   ├── llm_factory.py               # LLM provider factory
-│   ├── metrics.py                   # Prometheus metrics collector
-│   ├── models.py                    # Pydantic data models
-│   ├── streamer.py                  # WebSocket telemetry
-│   ├── supervisor.py                # Master orchestrator
-│   └── workers.py                   # Specialized worker agents
-├── immunotherapy_response_agent/    # Clinical package
-│   ├── agents.py                    # Clinical sub-agents
-│   ├── cli.py                       # Clinical CLI
-│   ├── engine.py                    # Clinical algorithmic engine
-│   ├── models.py                    # Clinical data models
-│   └── server.py                    # Clinical FastAPI server
-├── tests/                           # Test suite
-│   ├── test_enrichment.py           # Enrichment module tests
-│   └── test_immunotherapy_response_agent.py  # Core security & functionality tests
-├── cli.py                           # Main CLI entry point
-├── immuno_mind.py                   # Standalone evaluation script
-├── enrichment.py                    # Enrichment feature suite
-├── simulator.py                     # High-throughput stress simulator
-├── web/index.html                   # Operations console UI
-├── sample.csv                       # Sample batch input
-├── sample_payload.json              # Sample API payload
-├── benchmark_dataset.json           # Golden benchmark test suite
-├── openapi_spec.json                # OpenAPI 3.1 specification
-├── Dockerfile                       # Container build
-├── docker-compose.yml               # Multi-container orchestration
-└── pyproject.toml                   # Project metadata & dependencies
-```
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
+MIT. See [LICENSE](LICENSE).
