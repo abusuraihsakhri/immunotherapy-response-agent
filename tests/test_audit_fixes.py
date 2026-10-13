@@ -86,9 +86,9 @@ def test_batch_csv_false_and_true_are_distinct(tmp_path):
     source = tmp_path / "cases.csv"
     destination = tmp_path / "results.csv"
     source.write_text(
-        "case_id,patient_synthetic_id,metric_primary,metric_secondary,is_stat,status_flag\\n"
-        "C1,SYNTH-01,10,3,False,NOMINAL\\n"
-        "C2,SYNTH-02,10,3,True,NOMINAL\\n",
+        "case_id,patient_synthetic_id,metric_primary,metric_secondary,is_stat,status_flag\n"
+        "C1,SYNTH-01,10,3,False,NOMINAL\n"
+        "C2,SYNTH-02,10,3,True,NOMINAL\n",
         encoding="utf-8"
     )
     assert main(["batch", "--input", str(source), "--output", str(destination)]) == 0
